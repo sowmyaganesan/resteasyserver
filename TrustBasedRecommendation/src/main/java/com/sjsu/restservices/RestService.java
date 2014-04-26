@@ -1,14 +1,15 @@
 package com.sjsu.restservices;
 
 import java.io.IOException;
-
 import java.net.UnknownHostException;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 import com.sjsu.model.User;
@@ -61,16 +62,14 @@ public class RestService {
 
 	}//end of editUser()
 	
-	
-	@POST
+	@DELETE
 	@Path("/deleteuser")
-	@Consumes("application/json")
-	public Response deleteUser(User user)
+	public Response deleteUser(@QueryParam("email") String email)
 	{
 		String message = null;
 		try {
 			MongoDBClient mongoClient = new MongoDBClient();
-			message = mongoClient.deleteUser(user);
+			message = mongoClient.deleteUser(email);
 		} catch (UnknownHostException e) {
 			return Response.status(400).entity(message).build();
 		} catch (IOException e) {

@@ -111,10 +111,10 @@ public class Userrepository {
 	}
 
 	
-	public String removefriend(TrustScoreCollection trustScoreCollection) throws IOException {
+	public String removefriend(String user, String friend) throws IOException {
 
 			BasicDBObject whereQuery = new BasicDBObject();
-			whereQuery.put("email", trustScoreCollection.getUser());
+			whereQuery.put("email", user);
 			DBCollection usercollection = getUserCollection();
 			DBCollection trustcollection = getTrustCollection();
 			DBCursor cursor = usercollection.find(whereQuery);
@@ -123,26 +123,26 @@ public class Userrepository {
 					BSONObject json = cursor.next();
 					List<String> existingfriends = (List<String>) json.get("friends");
 					if (!existingfriends.equals("") && existingfriends != null){
-						if (existingfriends.contains(trustScoreCollection.getFriend())){
+						if (existingfriends.contains(friend)){
 							Iterator<String> iterator = existingfriends.iterator();
 							while (iterator.hasNext()) {
 								String bitr= iterator.next();
-								if (bitr.equals(trustScoreCollection.getFriend())){
+								if (bitr.equals(friend)){
 									iterator.remove();
 								}
 							}
-							BasicDBObject searchQuery = new BasicDBObject().append("email", trustScoreCollection.getUser());
+							BasicDBObject searchQuery = new BasicDBObject().append("email", user);
 						    BasicDBObject newDocument = new BasicDBObject();
 							newDocument.append("$set", new BasicDBObject().append("friends", existingfriends));
 							usercollection.update(searchQuery, newDocument);
 							
 							BasicDBObject deleteDocument = new BasicDBObject();
-							deleteDocument.put("friend", trustScoreCollection.getFriend());
+							deleteDocument.put("friend", friend);
 					
 							WriteResult result = trustcollection.remove(deleteDocument);
 							String error = result.getError();
 							if (error != null) {
-								throw new IOException("Error deleting the user with emailid " + trustScoreCollection.getFriend() + error);
+								throw new IOException("Error deleting the user with emailid " + friend + error);
 							}
 							System.out.println("Number of Documents deleted is " + result.getN());
 							return "{\"Success\": \"Deleted User information\"}";

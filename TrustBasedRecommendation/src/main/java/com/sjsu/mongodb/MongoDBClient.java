@@ -84,9 +84,9 @@ public class MongoDBClient {
 		return "{\"Failed\": \"User doesnt exist\"}";
 	}
 
-	public String deleteUser(User user) throws IOException {
+	public String deleteUser(String email) throws IOException {
 
-		String emailId = user.getEmail();
+		String emailId = email;
 		validateUser(emailId);
 		DBCollection collection = getUserCollection();
 		DBObject query = new BasicDBObject("email", new BasicDBObject("$exists", true));

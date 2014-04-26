@@ -6,6 +6,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -42,15 +43,14 @@ public class Bookmarkcontroller {
 
 	}
 	
-	@POST
+	@DELETE
 	@Path("/deletebookmark")
-	@Consumes("application/json")
-	public Response deletebookmark(UserBookmark userbookmark)
+	public Response deletebookmark(@QueryParam("bookmarkid") String bookmarkid, @QueryParam("email") String email)
 	{
 		String Message = null;
 		try {
 			Bookmarkrepository bookmarkrepository = new Bookmarkrepository();
-			Message = bookmarkrepository.deletebookmark(userbookmark.getBookmark(),userbookmark.getEmail());
+			Message = bookmarkrepository.deletebookmark(bookmarkid,email);
 		} catch (UnknownHostException e) {
 			return Response.status(400).entity(Message).build();
 		} catch (IOException e) {

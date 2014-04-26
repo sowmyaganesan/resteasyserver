@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 import com.sjsu.model.Email;
@@ -71,15 +73,14 @@ public class FriendController {
 		return Response.status(200).entity(Message).build();
 	}
 	
-	@POST
+	@DELETE
 	@Path("/removefriend")
-	@Consumes("application/json")
-	public Response removefriend(TrustScoreCollection trustScoreCollection)
+	public Response removefriend(@QueryParam("user") String user, @QueryParam("friend") String friend)
 	{
 		String Message = null;
 		try {
 			Userrepository userrepository = new Userrepository();
-			Message = userrepository.removefriend(trustScoreCollection);
+			Message = userrepository.removefriend(user,friend);
 		} catch (UnknownHostException e) {
 			return Response.status(400).entity(Message).build();
 		} catch (IOException e) {

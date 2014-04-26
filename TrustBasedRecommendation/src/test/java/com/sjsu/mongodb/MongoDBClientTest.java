@@ -55,7 +55,7 @@ public class MongoDBClientTest {
 		}
 	}
 
-	@Test
+	/*@Test
 	public void deleteUser() {
 
 		try {
@@ -74,6 +74,6 @@ public class MongoDBClientTest {
 			e.printStackTrace();
 		}
 
-	}
+	}*/
 
 }
