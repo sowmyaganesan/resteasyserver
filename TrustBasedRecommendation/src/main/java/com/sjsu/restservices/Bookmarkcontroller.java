@@ -65,15 +65,14 @@ public class Bookmarkcontroller {
 	}//end of deleteUser()
 	
 	
-	@POST
+	@GET
 	@Path("/getauserbookmark")
-	@Consumes("application/json")
-	public String getauserbookmark(Useremail useremail)
+	public String getauserbookmark(@QueryParam("email") String email)
 	{
 		String result = null;
 		try {
 			Bookmarkrepository bookmarkrepository = new Bookmarkrepository();
-			result = bookmarkrepository.getauserbookmark(useremail.getEmail());
+			result = bookmarkrepository.getauserbookmark(email);
 		} catch (UnknownHostException e) {
 			return result;
 		} catch (IOException e) {
