@@ -18,9 +18,9 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.util.ByteArrayDataSource;
 
-import com.sjsu.model.Attachment;
-import com.sjsu.model.Email;
-import com.sjsu.model.EmailConfiguration;
+import com.sjsu.pojo.Attachment;
+import com.sjsu.pojo.Email;
+import com.sjsu.pojo.EmailConfiguration;
 public class EmailService
 {
  private EmailConfiguration configuration = null;

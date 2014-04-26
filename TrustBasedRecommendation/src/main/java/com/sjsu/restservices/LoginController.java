@@ -2,21 +2,14 @@ package com.sjsu.restservices;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
-import com.sjsu.model.Bookmark;
-import com.sjsu.model.User;
-import com.sjsu.mongodb.Bookmarkrepository;
 import com.sjsu.mongodb.Loginrepository;
-import com.sjsu.mongodb.MongoDBClient;
+import com.sjsu.pojo.User;
 
 @Path("/login")
 public class LoginController {

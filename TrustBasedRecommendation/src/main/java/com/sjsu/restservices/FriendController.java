@@ -10,13 +10,13 @@ import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
-import com.sjsu.model.Email;
-import com.sjsu.model.EmailConfiguration;
-import com.sjsu.model.Inviteemails;
-import com.sjsu.model.TrustScoreCollection;
 import com.sjsu.mongodb.Bookmarkrepository;
 import com.sjsu.mongodb.EmailService;
 import com.sjsu.mongodb.Userrepository;
+import com.sjsu.pojo.Email;
+import com.sjsu.pojo.EmailConfiguration;
+import com.sjsu.pojo.Inviteemails;
+import com.sjsu.pojo.TrustScoreCollection;
 
 @Path("/friends")
 public class FriendController {

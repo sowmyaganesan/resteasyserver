@@ -10,7 +10,6 @@ import org.bson.BSONObject;
 import org.bson.types.ObjectId;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -18,8 +17,7 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.WriteResult;
-import com.sjsu.model.Bookmark;
-import com.sjsu.model.Bookmarkcollection;
+import com.sjsu.pojo.Bookmarkcollection;
 import com.sjsu.utilities.DatabaseConstants;
 
 public class Bookmarkrepository {

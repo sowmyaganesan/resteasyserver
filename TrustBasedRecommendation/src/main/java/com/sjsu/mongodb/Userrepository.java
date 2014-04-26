@@ -8,18 +8,13 @@ import java.util.List;
 
 import org.bson.BSONObject;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.WriteResult;
-import com.sjsu.model.Bookmark;
-import com.sjsu.model.TrustScoreCollection;
+import com.sjsu.pojo.TrustScoreCollection;
 import com.sjsu.utilities.DatabaseConstants;
 
 public class Userrepository {
@@ -161,7 +156,7 @@ public class Userrepository {
 	}
 	private DBCollection getTrustCollection() {
 		DB db = mongoClient.getDB(DatabaseConstants.DATABASE_NAME);
-		DBCollection collection = db.getCollection(DatabaseConstants.TRUST_TABLE_NAME);
+		DBCollection collection = db.getCollection(DatabaseConstants.TRUSTSCORE_TABLE_NAME);
 		return collection;
 	}
 }

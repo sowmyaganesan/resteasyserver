@@ -1,9 +1,9 @@
 package com.howtodoinjava.restful;
 
-import com.sjsu.model.Attachment;
-import com.sjsu.model.Email;
-import com.sjsu.model.EmailConfiguration;
 import com.sjsu.mongodb.EmailService;
+import com.sjsu.pojo.Attachment;
+import com.sjsu.pojo.Email;
+import com.sjsu.pojo.EmailConfiguration;
 
 public class EmailClient
 {

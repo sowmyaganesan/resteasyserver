@@ -2,22 +2,15 @@ package com.sjsu.mongodb;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
-import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 import org.bson.BSONObject;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.MongoClient;
-import com.mongodb.WriteResult;
-import com.sjsu.model.Bookmark;
-import com.sjsu.model.User;
 import com.sjsu.utilities.DatabaseConstants;
 
 public class Loginrepository {
