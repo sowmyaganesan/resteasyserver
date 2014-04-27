@@ -76,4 +76,25 @@ public class Bookmarkcontroller {
 		
 
 	}
+	
+	@GET
+	@Path("/getallfriendsofuser")
+	public String getallfriendsofuser(@QueryParam("email") String email)
+	{
+		String result = null;
+		try {
+			Bookmarkrepository bookmarkrepository = new Bookmarkrepository();
+			result = bookmarkrepository.getallfriendsofuser(email);
+		} catch (UnknownHostException e) {
+			return result;
+		} catch (IOException e) {
+			System.out.println(e);
+			return result;
+		}
+		
+		//200 denotes it is success
+		return result;
+		
+
+	}
 }

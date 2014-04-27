@@ -37,6 +37,43 @@ public class Bookmarkrepository {
 		}
 	}
 
+	public String getallfriendsofuser(String email){
+
+		try {
+			DBCollection collection = getUserCollection();
+			DBObject query = new BasicDBObject("email", email);
+			DBCursor existresult = collection.find(query);
+			if (existresult.size() > 0){
+				
+				BSONObject json = existresult.next();
+				List<Object> existfriends = (List<Object>) json.get("friends");
+				
+				if (existfriends == null)
+					return "{\"Success\": \"No friends exist for the user\"}";
+				else{
+					List<BSONObject> friendscollections = new ArrayList<BSONObject>();
+					Iterator<Object> iterator = existfriends.iterator();
+					while (iterator.hasNext()) {
+						Object bitr= iterator.next();
+						BasicDBObject whereQuery = new BasicDBObject().append("email", bitr);
+						DBCursor cursor = collection.find(whereQuery);
+						while(cursor.hasNext()){
+							BSONObject bjson = cursor.next();
+							friendscollections.add(bjson);
+						}
+					}
+					String book = new Gson().toJson(friendscollections);
+					return new Gson().toJson(friendscollections);
+				}
+			}
+			return "{\"Failed\": \"User doesnt exist\"}";
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "{\"Failed\": \"Could not add bookmark\"}";
+		}
+}
+
 	public String getauserbookmark(String email){
 
 			try {
