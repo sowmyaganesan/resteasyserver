@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.bson.BSONObject;
+
 import com.mongodb.AggregationOutput;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
@@ -52,8 +54,33 @@ public class MongoDBClient {
 			document.put("name", user.getName());
 			document.put("zip", user.getZip());
 			document.put("password", user.getPasswrd());
-			List<BasicDBObject> friendsList = new ArrayList<BasicDBObject>();			
-			document.put("friends", friendsList);
+			List<BasicDBObject> friendsList = new ArrayList<BasicDBObject>();
+			List<String> frdList = new ArrayList<String>();
+			DBCollection frdcollection = getEmailedCollection();
+			DBObject wherequery = new BasicDBObject("emailaddress",user.getEmail() );
+			existresult = frdcollection.find(wherequery);
+			if (existresult.size() > 0){
+				BSONObject json = existresult.next();
+				String senderemail =  (String) json.get("senderemail");
+				//BasicDBObject sender = senderemail;
+				frdList.add(senderemail);
+				document.put("friends", frdList);
+				DBObject senderquery = new BasicDBObject();
+				senderquery.put("email", senderemail);
+				DBCursor result = collection.find(senderquery);
+				
+				if(result.size() > 0){
+					BasicDBObject newDocument = new BasicDBObject();
+					List<String> frdemail = new ArrayList<String>();
+					frdemail.add(user.getEmail());
+					newDocument.append("$set", new BasicDBObject().append("friends", frdemail));
+					collection.update(senderquery, newDocument);
+				}else{
+					System.out.println(":Couldnt add sender email to friend list since sender doesnt exist in the system");
+				}
+			}else{
+				document.put("friends", frdList);
+			}
 
 	List<BasicDBObject> bookmarksList = new ArrayList<BasicDBObject>();
 
@@ -69,6 +96,11 @@ public class MongoDBClient {
 
 	}
 
+	public DBCollection getEmailedCollection() {
+		DB db = mongoClient.getDB(DatabaseConstants.DATABASE_NAME);
+		DBCollection collection = db.getCollection(DatabaseConstants.EMAIL_TABLE_NAME);
+		return collection;
+}
 	public String updateUser(User user) throws IOException {
 
 		String emailId = user.getEmail();

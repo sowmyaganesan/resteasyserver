@@ -34,7 +34,7 @@ public class Userrepository {
 		}
 	}
 
-	public String addfriend(TrustScoreCollection trustScoreCollection){
+	public String addTrustscoretofriend(TrustScoreCollection trustScoreCollection){
 
 		try {
 			BasicDBObject whereQuery = new BasicDBObject();
@@ -43,112 +43,102 @@ public class Userrepository {
 			DBCollection trustcollection = getTrustCollection();
 			DBCursor cursor = usercollection.find(whereQuery);
 			if(cursor.size() > 0){
-				String bookmarkupdated = null;
 				while(cursor.hasNext()) {
 					BSONObject json = cursor.next();
 					List<String> existingfriends = (List<String>) json.get("friends");
 					
 					if (existingfriends != null && !existingfriends.equals("")) {
-						if (!existingfriends.contains(trustScoreCollection.getFriend())){
-			 				//TypeToken<String[]> frdtoken = new TypeToken<String[]>(){};
-			 				//String[] frdarr = new Gson().fromJson(existingfriends, frdtoken.getType());
-							existingfriends.add(trustScoreCollection.getFriend());
-			 				
-			 				BasicDBObject searchQuery = new BasicDBObject().append("email", trustScoreCollection.getUser());
-						    BasicDBObject newDocument = new BasicDBObject();
-							newDocument.append("$set", new BasicDBObject().append("friends", existingfriends));
-							usercollection.update(searchQuery, newDocument);
+						if (existingfriends.contains(trustScoreCollection.getFriend())){
 							
-							BasicDBObject document = new BasicDBObject();
-							document.put("user", trustScoreCollection.getUser());
-							document.put("friend", trustScoreCollection.getFriend());
-							document.put("category", trustScoreCollection.getCategory());
-							document.put("trustscore", trustScoreCollection.getTrustscore());
-							document.put("explicit", trustScoreCollection.getExplicit());
-							WriteResult result = trustcollection.insert(document);
-							String error = result.getError();
-							if (error != null) {
-								throw new IOException("Error adding the friend with email id " + trustScoreCollection.getUser() + error);
+							BasicDBObject whereexistbook = new BasicDBObject();
+							whereexistbook.put("user", trustScoreCollection.getUser());
+							whereexistbook.put("friend", trustScoreCollection.getFriend());
+							whereexistbook.put("category", trustScoreCollection.getCategory());
+							
+							DBCursor bookcursor = trustcollection.find(whereexistbook);
+							
+							if(bookcursor.size() > 0){
+								return "{\"Failed\": \"User has already been given trust score try update\"}";	
+							}else{
+								BasicDBObject document = new BasicDBObject();
+								document.put("user", trustScoreCollection.getUser());
+								document.put("friend", trustScoreCollection.getFriend());
+								document.put("category", trustScoreCollection.getCategory());
+								document.put("trustscore", trustScoreCollection.getTrustscore());
+								document.put("explicit", trustScoreCollection.getExplicit());
+								WriteResult result = trustcollection.insert(document);
+								String error = result.getError();
+								if (error != null) {
+									throw new IOException("Error adding the friend with email id " + trustScoreCollection.getUser() + error);
+								}
+								return "{\"Success\": \"Added Trust score\"}";
 							}
-							return "{\"Success\": \"Added User\"}";							
+														
 						}else{
-							return "{\"Failed\": \"user exist in friends list\"}";
+							return "{\"Failed\": \"user doesnt exist in friends list\"}";
 						}
 					}else{
-						List<String> frdarr = new ArrayList<String>();
-						frdarr.add(trustScoreCollection.getFriend());
-						BasicDBObject searchQuery = new BasicDBObject().append("email", trustScoreCollection.getUser());
-					    BasicDBObject newDocument = new BasicDBObject();
-						newDocument.append("$set", new BasicDBObject().append("friends", frdarr));
-						usercollection.update(searchQuery, newDocument);
-						
-						BasicDBObject document = new BasicDBObject();
-						document.put("user", trustScoreCollection.getUser());
-						document.put("friend", trustScoreCollection.getFriend());
-						document.put("category", trustScoreCollection.getCategory());
-						document.put("trustscore", trustScoreCollection.getTrustscore());
-						document.put("explicit", trustScoreCollection.getExplicit());
-						WriteResult result = trustcollection.insert(document);
-						String error = result.getError();
-						if (error != null) {
-							throw new IOException("Error adding the friend with email id " + trustScoreCollection.getUser() + error);
-						}
-						return "{\"Success\": \"Added User\"}";
+						return "{\"Failed\": \"user not a friend please send him a friend request\"}";
 					}
-			}
+				}
+			}else{
 				return "{\"Failed\": \"User doesnt exist\"}";
 			}
 			}catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		return "{\"Failed\": \"Could not update friends list\"}";
+		return "{\"Failed\": \"Could not update trust score\"}";
 	}
 
-	
-	public String removefriend(String user, String friend) throws IOException {
+	public String removefriendfromtrustnw(String user, String friend, String category) throws IOException {
 
-			BasicDBObject whereQuery = new BasicDBObject();
-			whereQuery.put("email", user);
-			DBCollection usercollection = getUserCollection();
-			DBCollection trustcollection = getTrustCollection();
-			DBCursor cursor = usercollection.find(whereQuery);
-			if(cursor.size() > 0){
-				while(cursor.hasNext()) {
-					BSONObject json = cursor.next();
-					List<String> existingfriends = (List<String>) json.get("friends");
-					if (!existingfriends.equals("") && existingfriends != null){
-						if (existingfriends.contains(friend)){
-							Iterator<String> iterator = existingfriends.iterator();
-							while (iterator.hasNext()) {
-								String bitr= iterator.next();
-								if (bitr.equals(friend)){
-									iterator.remove();
-								}
-							}
-							BasicDBObject searchQuery = new BasicDBObject().append("email", user);
-						    BasicDBObject newDocument = new BasicDBObject();
-							newDocument.append("$set", new BasicDBObject().append("friends", existingfriends));
-							usercollection.update(searchQuery, newDocument);
-							
-							BasicDBObject deleteDocument = new BasicDBObject();
-							deleteDocument.put("friend", friend);
-					
-							WriteResult result = trustcollection.remove(deleteDocument);
-							String error = result.getError();
-							if (error != null) {
-								throw new IOException("Error deleting the user with emailid " + friend + error);
-							}
-							System.out.println("Number of Documents deleted is " + result.getN());
-							return "{\"Success\": \"Deleted User information\"}";
+		BasicDBObject whereQuery = new BasicDBObject();
+		whereQuery.put("user", user);
+		whereQuery.put("friend", friend);
+		whereQuery.put("category", category);
+		DBCollection trustcollection = getTrustCollection();
+		DBCursor cursor = trustcollection.find(whereQuery);
+		if(cursor.size() > 0){
+			while(cursor.hasNext()) {
+						WriteResult result = trustcollection.remove(whereQuery);
+						String error = result.getError();
+						if (error != null) {
+							throw new IOException("Error deleting the user with emailid " + friend + error);
 						}
-					}
-				}
+						System.out.println("Number of Documents deleted is " + result.getN());
+						return "{\"Success\": \"Deleted User information\"}";
 			}
-			return "{\"Failed\": \"Internal error either user doesnt exist or error in deletion\"}";
-		
-	}
-	
+			
+		}
+		return "{\"Failed\": \"Internal error either user doesnt exist or error in deletion\"}";
+}
+
+	public String updateTrustscoretofriend(TrustScoreCollection trustScoreCollection) throws IOException {
+
+		BasicDBObject whereQuery = new BasicDBObject();
+		whereQuery.put("user", trustScoreCollection.getUser());
+		whereQuery.put("friend", trustScoreCollection.getFriend());
+		whereQuery.put("category", trustScoreCollection.getCategory());
+		DBCollection trustcollection = getTrustCollection();
+		DBCursor cursor = trustcollection.find(whereQuery);
+		if(cursor.size() > 0){
+			while(cursor.hasNext()) {
+						BasicDBObject newDocument = new BasicDBObject();
+						newDocument.append("$set", new BasicDBObject().append("trustscore", trustScoreCollection.getTrustscore()));
+						WriteResult result =trustcollection.update(whereQuery, newDocument);
+						String error = result.getError();
+						if (error != null) {
+							throw new IOException("Error deleting the user with emailid " + trustScoreCollection.getFriend() + error);
+						}
+						System.out.println("Number of Documents deleted is " + result.getN());
+						return "{\"Success\": \"Updated trust score\"}";
+			}
+			
+		}
+		return "{\"Failed\": \"Internal error either user doesnt exist or error in deletion\"}";
+}
+
 	private DBCollection getUserCollection() {
 		DB db = mongoClient.getDB(DatabaseConstants.DATABASE_NAME);
 		DBCollection collection = db.getCollection(DatabaseConstants.USER_TABLE_NAME);

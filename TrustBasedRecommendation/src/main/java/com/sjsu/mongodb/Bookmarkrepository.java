@@ -40,10 +40,8 @@ public class Bookmarkrepository {
 	public String getauserbookmark(String email){
 
 			try {
-				BasicDBObject searchQuery;
 				DBCollection collection = getUserCollection();
-				searchQuery = new BasicDBObject().append("email",email);
-				DBObject query = new BasicDBObject("email", new BasicDBObject("$exists", true));
+				DBObject query = new BasicDBObject("email", email);
 				DBCursor existresult = collection.find(query);
 				if (existresult.size() > 0){
 					
