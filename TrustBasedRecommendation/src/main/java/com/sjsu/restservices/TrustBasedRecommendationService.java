@@ -15,72 +15,16 @@ import com.sjsu.pojo.User;
 @Path("/trustbasedtecommendationservice")
 public class TrustBasedRecommendationService {
 
-	/*@GET
-	@Path("/getexplicittrustrecommendation")
-	@Consumes("application/json")
-	@Produces("application/json")
-	public Response getExplicitRecommendation(User user) {
-		String failedMessage = "failed to get explicit recommendation";
-		String successMessage = "got explicit recommentation  ";
-		try {
-			MongoDBClient mongoClient = new MongoDBClient();
-			
-			List<String> categoryList = mongoClient.getMostBookmarkedCategory( user);
-			
-			
-			
-			
-		List<TrustScore> trustScoreList = 	 mongoClient.getTopTrustedFriendsinCategory(user ,categoryList);
-		
-	
-		
-		List<Bookmark> bookmarksList = mongoClient.getBookmarksfromTopTrustedFriends(user , trustScoreList);
-		
-		} catch (UnknownHostException e) {
-			return Response.status(400).entity(failedMessage).build();
-		} catch (IOException e) {
-			return Response.status(400).entity(failedMessage).build();
-		}
-
-		// 200 denotes it is success
-		return Response.status(200).entity(successMessage).build();
-
-	}
-	
-	
-	
-	*/
-	
-	
-	
-	
-
 	@GET
 	@Path("/gettrustrecommendation")
-	@Consumes("application/json")
-	@Produces("application/json")
 	public List<Bookmark> getRecommendation(User user  ) {
-		
-		
-		/*User user = new User() ;
-		user.setEmail("cmeena@gmail.com");
-		*/
 		List<Bookmark> bookmarksList =  new ArrayList<Bookmark>()  ;
 		try {
 			MongoDBClient mongoClient = new MongoDBClient();
-			
 			 bookmarksList = mongoClient.getRecommendationsforUser(user);
-			
-			
-			
 			if(bookmarksList.size() == 0  )
 			{
-				
 				 bookmarksList = mongoClient.getPopularRecommendationinCategory();
-				
-				
-				
-				
 			}
 			
 			for (int i = 0 ; i <bookmarksList.size() ; i++ )
@@ -88,9 +32,6 @@ public class TrustBasedRecommendationService {
 				Bookmark bookmark = (Bookmark)bookmarksList.get(i);
 				System.out.println(bookmark.toString()) ; 
 			}
-			
-			
-		
 		
 		} catch (Exception e) {
 		

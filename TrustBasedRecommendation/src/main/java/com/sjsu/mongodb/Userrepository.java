@@ -64,7 +64,7 @@ public class Userrepository {
 							document.put("friend", trustScoreCollection.getFriend());
 							document.put("category", trustScoreCollection.getCategory());
 							document.put("trustscore", trustScoreCollection.getTrustscore());
-							document.put("explicit", trustScoreCollection.isExplicit());
+							document.put("explicit", trustScoreCollection.getExplicit());
 							WriteResult result = trustcollection.insert(document);
 							String error = result.getError();
 							if (error != null) {
@@ -87,7 +87,7 @@ public class Userrepository {
 						document.put("friend", trustScoreCollection.getFriend());
 						document.put("category", trustScoreCollection.getCategory());
 						document.put("trustscore", trustScoreCollection.getTrustscore());
-						document.put("explicit", trustScoreCollection.isExplicit());
+						document.put("explicit", trustScoreCollection.getExplicit());
 						WriteResult result = trustcollection.insert(document);
 						String error = result.getError();
 						if (error != null) {

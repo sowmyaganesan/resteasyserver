@@ -1,15 +1,26 @@
 package com.sjsu.pojo;
 
+import java.util.List;
+
 public class Useremail {
-	String email;
-
-	public String getEmail() {
-		return email;
+	List<String> frdemail;
+	String senderemail;
+	
+	
+	public List<String> getFrdemail() {
+		return frdemail;
 	}
-
-	public void setEmail(String email) {
-		this.email = email;
+	public void setFrdemail(List<String> frdemail) {
+		this.frdemail = frdemail;
 	}
+	public String getSenderemail() {
+		return senderemail;
+	}
+	public void setSenderemail(String senderemail) {
+		this.senderemail = senderemail;
+	}
+	
+	
 	
 	
 }

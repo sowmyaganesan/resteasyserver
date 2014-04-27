@@ -6,7 +6,7 @@ public class TrustScoreCollection {
 	String friend;
 	String category;
 	Double trustscore;
-	boolean explicit;
+	String explicit;
 	
 	public String getUser() {
 		return user;
@@ -32,10 +32,11 @@ public class TrustScoreCollection {
 	public void setTrustscore(Double trustscore) {
 		this.trustscore = trustscore;
 	}
-	public boolean isExplicit() {
+	public String getExplicit() {
 		return explicit;
 	}
-	public void setExplicit(boolean explicit) {
+	public void setExplicit(String explicit) {
 		this.explicit = explicit;
 	}
+	
 }

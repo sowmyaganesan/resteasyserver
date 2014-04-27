@@ -19,7 +19,7 @@ import com.sjsu.restservices.FourSquareService;
 
 public class MongoDBClientTest {
 
-	@Test
+	/*@Test
 	public void addUser() {
 		try {
 			MongoDBClient mongoClient = new MongoDBClient();
@@ -83,13 +83,13 @@ public class MongoDBClientTest {
 
 	}
 
-	@Test
+*/	/*@Test
 	public void getBookmarksfromUserTest() {
 
 		try {
 			MongoDBClient mongoClient = new MongoDBClient();
 			List<String> frndEmailList = new ArrayList<String>();
-			frndEmailList.add("som@gmail.com");
+			frndEmailList.add("sowmister@gmail.com");
 			frndEmailList.add("cmeena@gmail.com");
 
 			mongoClient.getBookmarksfromUser(frndEmailList);
@@ -103,15 +103,15 @@ public class MongoDBClientTest {
 		}
 
 	}
-
-	@Test
+*/
+/*	@Test
 	public void getMostBookmarkedCategory() {
 		try {
 			MongoDBClient mongoClient = new MongoDBClient();
 			User user = new User();
 			user.setCity("santaclara");
 			user.setName("meena");
-			user.setEmail("sowmistergmail.com");
+			user.setEmail("sowmister@gmail.com");
 			user.setZip(95051);
 
 			mongoClient.getMostBookmarkedCategory(user);
@@ -125,8 +125,8 @@ public class MongoDBClientTest {
 		}
 
 	}
-
-	@Test
+*/
+	/*@Test
 	public void getPopularRecommendationinCategoryTest() {
 
 		try {
@@ -146,16 +146,16 @@ public class MongoDBClientTest {
 			e.printStackTrace();
 		}
 
-	}
+	}*/
 
-	@Test
+	/*@Test
 	public void getTopTrustedFriendsinCategory() {
 		try {
 			MongoDBClient mongoClient = new MongoDBClient();
 			User user = new User();
 			user.setCity("santaclara");
 			user.setName("meena");
-			user.setEmail("sowmistergmail.com");
+			user.setEmail("sowmister@gmail.com");
 			user.setZip(95051);
 
 			List<String> categoryList = new ArrayList<String>();
@@ -172,9 +172,9 @@ public class MongoDBClientTest {
 			e.printStackTrace();
 		}
 
-	}
+	}*/
 
-	@Test
+	/*@Test
 	public void getBookmarksfromTopTrustedFriendsTest() {
 		try {
 			MongoDBClient mongoClient = new MongoDBClient();
@@ -211,9 +211,9 @@ public class MongoDBClientTest {
 			e.printStackTrace();
 		}
 
-	}
-
-	@Test
+	}*/
+	
+	/*@Test
 	public void getAllUserandFrndsofSystemTest() {
 		try {
 			MongoDBClient mongoClient = new MongoDBClient();
@@ -228,16 +228,16 @@ public class MongoDBClientTest {
 			e.printStackTrace();
 		}
 
-	}
+	}*/
 
-	@Test
+	/*@Test
 	public void getAllBookmarkCategoryCountForUserTest() {
 		try {
 			MongoDBClient mongoClient = new MongoDBClient();
 
 			User user = new User();
 			// user.setId("53389baec2e6e0681db8768e");
-			user.setEmail("cmeena@gmail.com");
+			user.setEmail("sowmister@gmail.com");
 
 			mongoClient.getAllBookmarkCategoryCountForUser(user);
 
@@ -250,8 +250,8 @@ public class MongoDBClientTest {
 		}
 
 	}
-
-	@Test
+*/
+/*	@Test
 	public void populateUserRecommendationTest() {
 		try {
 
@@ -259,7 +259,7 @@ public class MongoDBClientTest {
 
 			List<UserRecommendation> userRecommendationList = new ArrayList<UserRecommendation>();
 			UserRecommendation userRecommendation = new UserRecommendation();
-			userRecommendation.setEmail("cmeena@gmail.com");
+			userRecommendation.setEmail("sowmister@gmail.com");
 			Bookmark bookmark = new Bookmark();
 			bookmark.setName("heel");
 			bookmark.setLocation("rtet");
@@ -290,8 +290,8 @@ public class MongoDBClientTest {
 			e.printStackTrace();
 		}
 
-	}
-
+	}*/
+	/*
 	@Test
 	public void getRecommendationforUserTest() {
 
@@ -340,5 +340,5 @@ public class MongoDBClientTest {
 		}
 
 	}
-
+*/
 }

@@ -43,7 +43,7 @@ public class MongoDBClient {
 
 		validateUser(user.getEmail());
 		DBCollection collection = getUserCollection();
-		DBObject query = new BasicDBObject("email", new BasicDBObject("$exists", true));
+		DBObject query = new BasicDBObject("email",user.getEmail() );
 		DBCursor existresult = collection.find(query);
 		if (existresult.size() == 0){
 			BasicDBObject document = new BasicDBObject();
@@ -52,6 +52,12 @@ public class MongoDBClient {
 			document.put("name", user.getName());
 			document.put("zip", user.getZip());
 			document.put("password", user.getPasswrd());
+			List<BasicDBObject> friendsList = new ArrayList<BasicDBObject>();			
+			document.put("friends", friendsList);
+
+	List<BasicDBObject> bookmarksList = new ArrayList<BasicDBObject>();
+
+			document.put("bookmarks", bookmarksList);
 			WriteResult result = collection.insert(document);
 			String error = result.getError();
 			if (error != null) {
@@ -68,16 +74,16 @@ public class MongoDBClient {
 		String emailId = user.getEmail();
 		validateUser(emailId);
 		DBCollection collection = getUserCollection();
-		DBObject query = new BasicDBObject("email", new BasicDBObject("$exists", true));
+		DBObject query = new BasicDBObject("email", emailId);
 		DBCursor existresult = collection.find(query);
 		if (existresult.size() > 0){
 			DBObject history = new BasicDBObject();
 			history.put("city", user.getCity());
 			history.put("name", user.getName());
 			history.put("zip", user.getZip());
-	
+
 			DBObject update = new BasicDBObject("$set", history);
-	
+
 			// search with email id and then udpate the object
 			BasicDBObject searchQuery = new BasicDBObject().append("email", emailId);
 			WriteResult result = collection.update(searchQuery, update);
@@ -96,12 +102,12 @@ public class MongoDBClient {
 		String emailId = email;
 		validateUser(emailId);
 		DBCollection collection = getUserCollection();
-		DBObject query = new BasicDBObject("email", new BasicDBObject("$exists", true));
+		DBObject query = new BasicDBObject("email", emailId);
 		DBCursor existresult = collection.find(query);
 		if (existresult.size() > 0){
 			BasicDBObject deleteDocument = new BasicDBObject();
 			deleteDocument.put("email", emailId);
-	
+
 			WriteResult result = collection.remove(deleteDocument);
 			String error = result.getError();
 			if (error != null) {
@@ -129,13 +135,13 @@ public class MongoDBClient {
 	public List<User> getAllUserandFrndsofSystem() {
 
 		DBCollection collection = getUserCollection();
-		
+
 		List<User>  users = new ArrayList<User>();
 
 		BasicDBObject query = new BasicDBObject();
 
 		BasicDBObject field = new BasicDBObject();
-		
+
 		field.put("email", 1);
 		field.put("friends" , 1) ;
 
@@ -145,10 +151,10 @@ public class MongoDBClient {
 			//System.out.println(cursor.next());
 			User user = new User();
 			DBObject dbobj = cursor.next();
-			
+
 			user.setEmail((String) dbobj.get("email"));
 			user.setFriendsList((List<String>) dbobj.get("friends"));
-			
+
 			users.add(user);
 		}
 
@@ -159,23 +165,23 @@ public class MongoDBClient {
 	public void populateUserRecommendation(
 			List<UserRecommendation> userRecommendationList) throws IOException {
 		DBCollection collection = getRecommendationCollection();
-		
+
 		for(int i = 0 ; i <userRecommendationList.size() ; i++  )
 		{
 		BasicDBObject document = new BasicDBObject();
 		document.append("email", userRecommendationList.get(i).getEmail());
-		
+
 		List<Bookmark>  bookmarksList = userRecommendationList.get(i).getBookmarksList() ;
-		
+
 		List<BasicDBObject> bookmarkdocList = new ArrayList<BasicDBObject>();
-		
+
 		for(int k =0 ; k <bookmarksList.size() ;k++ )
 		{
 		Bookmark tempBookmark = bookmarksList.get(k);
-		
+
 		BasicDBObject bookmarkdoc = new BasicDBObject();
-		
-	
+
+
 		bookmarkdoc.append("name" , tempBookmark.getName() ) ;
 		bookmarkdoc.append("location" ,tempBookmark.getLocation());
 		bookmarkdoc.append("stats" ,tempBookmark.getStats());
@@ -183,20 +189,20 @@ public class MongoDBClient {
 		bookmarkdoc.append("tried", tempBookmark.getTried());
 		bookmarkdoc.append("status", tempBookmark.getStatus());
 		bookmarkdocList.add(bookmarkdoc);
-		
+
 		}
 		document.append("bookmarks",   bookmarkdocList ) ;
 
-		
+
 		WriteResult result = collection.insert(document);
 		String error = result.getError();
 		if (error != null) {
 			throw new IOException("Error adding the user with email id "
 					+ userRecommendationList.get(i).getEmail()+ error);
 		}
-		
+
 		}
-		
+
 	}
 	private DBCollection getRecommendationCollection() {
 		DB db = mongoClient.getDB(DatabaseConstants.DATABASE_NAME);
@@ -357,22 +363,22 @@ public class MongoDBClient {
 		return bookmarksList ; 
 	}
 	public List<String> findUserinRecommendation() {
-		
+
 		DBCollection collection = getRecommendationCollection();
-		
+
 		BasicDBObject allQuery = new BasicDBObject();
 		BasicDBObject fields = new BasicDBObject();
 		fields.put("email", 1);
-		
+
 		DBCursor cursor = collection.find(allQuery , fields);
-		
+
 		List<String>  users = new ArrayList<String>();
-		
-		
+
+
 		while (cursor.hasNext()) {
 			DBObject dbobject = cursor.next();
 			users.add((String) dbobject.get("email")) ;
-		
+
 		}
 		return users;
 	}
@@ -408,7 +414,7 @@ public class MongoDBClient {
 	{
 		//Todo get only status = liked 
 		DBCollection collection = getBookmarkCollection();
-		
+
 		List<Bookmark> bookmarksList = new ArrayList<Bookmark>();
 		BasicDBObject inQuery = new BasicDBObject();
 
@@ -427,34 +433,34 @@ public class MongoDBClient {
 			System.out.println(bookmark.toString());
 			bookmarksList.add(bookmark);
 		}
-		
+
 		return bookmarksList ; 
 	}
 	public List<Bookmark>  getRecommendationsforUser(User user)
 	{
 		//Todo get only status = liked 
 		DBCollection collection = getRecommendationCollection();
-		
+
 		List<Bookmark> bookmarksList = new ArrayList<Bookmark>();
 		BasicDBObject inQuery = new BasicDBObject();
 
 		inQuery.put("email",user.getEmail());
-		
-		
+
+
 		DBObject fields = new BasicDBObject("bookmarks", 1);
-		
+
 		DBCursor cursor = collection.find(inQuery,  fields );
 		while(cursor.hasNext()) {
 			DBObject dbobj = cursor.next();
 			List<DBObject>  dbObjectList  = (List<DBObject>) dbobj.get("bookmarks"); 
-			
+
 			System.out.println(dbObjectList);
-			
+
 			for(int i = 0 ; i <dbObjectList.size() ; i++)
 			{
 				DBObject tempdbobj  = dbObjectList.get(i) ;
 				Bookmark bookmark = new Bookmark();
-				
+
 				bookmark.setName(String.valueOf(tempdbobj.get("name")));
 				bookmark.setLocation((String) tempdbobj.get("location"));
 				bookmark.setCategory((String) tempdbobj.get("category"));
@@ -463,41 +469,41 @@ public class MongoDBClient {
 				bookmark.setTried((Boolean) tempdbobj.get("tried"));
 				System.out.println(bookmark.toString());
 				bookmarksList.add(bookmark);
-			
+
 			}
-		
-			
-			
+
+
+
 		}
-		
+
 		for (int i = 0 ; i <bookmarksList.size() ; i++ )
 		{
 			Bookmark bookmark = (Bookmark)bookmarksList.get(i);
 			System.out.println(bookmark.toString()) ; 
 		}
-		
+
 		return bookmarksList ; 
 	}
 	public List<Bookmark> getPopularRecommendationinCategory(
 			List<String> categoryList) {
 		DBCollection collection = getBookmarkCollection();
-		
+
 		List<Bookmark> bookmarksList = new ArrayList<Bookmark>();
 		BasicDBObject inQuery = new BasicDBObject();
 
 		inQuery.put("category", new BasicDBObject("$in", categoryList));
-		
-		
-		
-		
-		
+
+
+
+
+
 
 		BasicDBObject orderBy = new BasicDBObject() ;
 		orderBy.put("stats", -1);
-		
+
 		DBCursor cursor = collection.find(inQuery).sort(orderBy);
 
-		
+
 		while(cursor.hasNext()) {
 			DBObject dbobj = cursor.next();
 			Bookmark bookmark = new Bookmark();
@@ -511,20 +517,20 @@ public class MongoDBClient {
 			System.out.println(bookmark.toString());
 			bookmarksList.add(bookmark);
 		}
-		
+
 		return bookmarksList ; 
 	}
 	public List<Bookmark> getPopularRecommendationinCategory() {
 		DBCollection collection = getBookmarkCollection();
-		
+
 		List<Bookmark> bookmarksList = new ArrayList<Bookmark>();
-		
+
 		BasicDBObject orderBy = new BasicDBObject() ;
 		orderBy.put("stats", -1);
-		
+
 		DBCursor cursor = collection.find().sort(orderBy);
 
-		
+
 		while(cursor.hasNext()) {
 			DBObject dbobj = cursor.next();
 			Bookmark bookmark = new Bookmark();
@@ -538,9 +544,7 @@ public class MongoDBClient {
 			System.out.println(bookmark.toString());
 			bookmarksList.add(bookmark);
 		}
-		
+
 		return bookmarksList ; 
 	}
 }
-
-
