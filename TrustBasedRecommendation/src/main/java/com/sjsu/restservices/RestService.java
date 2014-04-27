@@ -64,12 +64,13 @@ public class RestService {
 	
 	@DELETE
 	@Path("/deleteuser")
-	public Response deleteUser(@QueryParam("email") String email)
+	@Consumes("application/json")
+	public Response deleteUser(User user)
 	{
 		String message = null;
 		try {
 			MongoDBClient mongoClient = new MongoDBClient();
-			message = mongoClient.deleteUser(email);
+			message = mongoClient.deleteUser(user.getEmail());
 		} catch (UnknownHostException e) {
 			return Response.status(400).entity(message).build();
 		} catch (IOException e) {

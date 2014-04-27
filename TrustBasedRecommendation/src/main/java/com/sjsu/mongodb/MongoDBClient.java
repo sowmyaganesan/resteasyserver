@@ -43,7 +43,7 @@ public class MongoDBClient {
 
 		validateUser(user.getEmail());
 		DBCollection collection = getUserCollection();
-		DBObject query = new BasicDBObject("email", new BasicDBObject("$exists", true));
+		DBObject query = new BasicDBObject("email",user.getEmail() );
 		DBCursor existresult = collection.find(query);
 		if (existresult.size() == 0){
 			BasicDBObject document = new BasicDBObject();
@@ -52,6 +52,12 @@ public class MongoDBClient {
 			document.put("name", user.getName());
 			document.put("zip", user.getZip());
 			document.put("password", user.getPasswrd());
+			List<BasicDBObject> friendsList = new ArrayList<BasicDBObject>();			
+			document.put("friends", friendsList);
+			
+	List<BasicDBObject> bookmarksList = new ArrayList<BasicDBObject>();
+			
+			document.put("bookmarks", bookmarksList);
 			WriteResult result = collection.insert(document);
 			String error = result.getError();
 			if (error != null) {
@@ -68,7 +74,7 @@ public class MongoDBClient {
 		String emailId = user.getEmail();
 		validateUser(emailId);
 		DBCollection collection = getUserCollection();
-		DBObject query = new BasicDBObject("email", new BasicDBObject("$exists", true));
+		DBObject query = new BasicDBObject("email", emailId);
 		DBCursor existresult = collection.find(query);
 		if (existresult.size() > 0){
 			DBObject history = new BasicDBObject();
@@ -96,7 +102,7 @@ public class MongoDBClient {
 		String emailId = email;
 		validateUser(emailId);
 		DBCollection collection = getUserCollection();
-		DBObject query = new BasicDBObject("email", new BasicDBObject("$exists", true));
+		DBObject query = new BasicDBObject("email", emailId);
 		DBCursor existresult = collection.find(query);
 		if (existresult.size() > 0){
 			BasicDBObject deleteDocument = new BasicDBObject();
