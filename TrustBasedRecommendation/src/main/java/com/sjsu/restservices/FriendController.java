@@ -13,6 +13,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
+import com.google.gson.Gson;
 import com.sjsu.mongodb.Bookmarkrepository;
 import com.sjsu.mongodb.EmailService;
 import com.sjsu.mongodb.EmailTracker;
@@ -33,6 +34,7 @@ public class FriendController {
 	public Response invitefriends(Inviteemails inviteemails)
 	{
 		String Message = null;
+		String invfrd = new Gson().toJson(inviteemails);
 		EmailConfiguration configuration = new EmailConfiguration();
 		  configuration.setProperty(EmailConfiguration.SMTP_HOST, "smtp.gmail.com");
 		  configuration.setProperty(EmailConfiguration.SMTP_AUTH, "true");
@@ -96,6 +98,8 @@ public class FriendController {
 	public Response addfriends(TrustScoreCollection trustScoreCollection)
 	{
 		String Message = null;
+		String invfrd = new Gson().toJson(trustScoreCollection);
+		System.out.println(invfrd);
 		try {
 			Userrepository userrepository = new Userrepository();
 			Message = userrepository.addTrustscoretofriend(trustScoreCollection);
@@ -112,6 +116,8 @@ public class FriendController {
 	public Response updateTrustscoretofriend(TrustScoreCollection trustScoreCollection)
 	{
 		String Message = null;
+		String invfrd = new Gson().toJson(trustScoreCollection);
+		System.out.println(invfrd);
 		try { 
 			Userrepository userrepository = new Userrepository();
 			Message = userrepository.updateTrustscoretofriend(trustScoreCollection);
@@ -131,6 +137,7 @@ public class FriendController {
 	public Response removefriendfromtrustnw(@QueryParam("user") String user, @QueryParam("friend") String friend, @QueryParam("category") String category)
 	{
 		String Message = null;
+		
 		try {
 			Userrepository userrepository = new Userrepository();
 			Message = userrepository.removefriendfromtrustnw(user,friend,category);
