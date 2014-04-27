@@ -54,6 +54,7 @@ public class MongoDBClient {
 			document.put("name", user.getName());
 			document.put("zip", user.getZip());
 			document.put("password", user.getPasswrd());
+
 			List<BasicDBObject> friendsList = new ArrayList<BasicDBObject>();
 			List<String> frdList = new ArrayList<String>();
 			DBCollection frdcollection = getEmailedCollection();
@@ -83,6 +84,7 @@ public class MongoDBClient {
 			}
 
 	List<BasicDBObject> bookmarksList = new ArrayList<BasicDBObject>();
+
 
 			document.put("bookmarks", bookmarksList);
 			WriteResult result = collection.insert(document);
