@@ -112,7 +112,7 @@ public class FriendController {
 	public Response updateTrustscoretofriend(TrustScoreCollection trustScoreCollection)
 	{
 		String Message = null;
-		try {
+		try { 
 			Userrepository userrepository = new Userrepository();
 			Message = userrepository.updateTrustscoretofriend(trustScoreCollection);
 		} catch (UnknownHostException e) {

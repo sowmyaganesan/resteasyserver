@@ -111,7 +111,7 @@ public class Userrepository {
 			}
 			
 		}
-		return "{\"Failed\": \"Internal error either user doesnt exist or error in deletion\"}";
+		return "{\"Failed\": \"Internal error either user doesnt exist or error in deletion\"}"; 
 }
 
 	public String updateTrustscoretofriend(TrustScoreCollection trustScoreCollection) throws IOException {

@@ -6,7 +6,7 @@ import java.util.List;
 public class Inviteemails {
 	List<String> emailaddress;
 	String senderemail;
-	
+	 
 	
 	public List<String> getEmailaddress() {
 		return emailaddress;

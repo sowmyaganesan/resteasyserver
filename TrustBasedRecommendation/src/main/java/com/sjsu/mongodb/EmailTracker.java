@@ -27,7 +27,7 @@ public class EmailTracker {
 	public void listAllDatabases() {
 		List<String> databaseNamesList = mongoClient.getDatabaseNames();
 
-		for (String db : databaseNamesList) {
+		for (String db : databaseNamesList) { 
 			System.out.println(db);
 		}
 	}
