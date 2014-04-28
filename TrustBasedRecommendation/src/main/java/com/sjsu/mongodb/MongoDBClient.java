@@ -653,4 +653,35 @@ public class MongoDBClient {
 		return superCategoryName;
 		
 	}
+	
+	
+	
+	
+	
+	
+	public List<String> getAllCategories()
+	{
+		DBCollection collection = getCategoryCollection();
+		
+		List<String>  categoryNamesList = new ArrayList<String>();
+		
+		categoryNamesList = collection.distinct("superCategory");
+		
+		
+
+	
+		
+	
+
+
+	/*	while (result.hasNext()) {
+			DBObject dbobject = result.next();
+
+
+			 categoryNamesList.add(	(String) dbobject.get("superCategory"));
+		}*/
+		
+		return categoryNamesList;
+		
+	}
 }

@@ -45,7 +45,7 @@ db.UserCollection.insert({  "bookmarks" : [ ], "city" : "chennai", "email" : "pa
 db.UserCollection.insert({  "email" : "ram@gmail.com", "city" : "houston", "name" : "ram", "zip" : 95051, "password" : null, "friends" : [ ], "bookmarks" : [ ] });
 
 
-
+db.createCollection("CategoryCollection" );
 
 
 

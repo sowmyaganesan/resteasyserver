@@ -1,13 +1,19 @@
 package com.sjsu.Recommendation;
 
+import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.sjsu.foursquare.FourSquareClient;
 import com.sjsu.mongodb.MongoDBClient;
 import com.sjsu.pojo.User;
 import com.sjsu.pojo.UserRecommendation;
+
+import fi.foyt.foursquare.api.FoursquareApiException;
+import fi.foyt.foursquare.api.Result;
+import fi.foyt.foursquare.api.entities.Category;
 
 public class RecommendationProcessDriver {
 
@@ -81,12 +87,70 @@ public class RecommendationProcessDriver {
 	private static void startupOperations() {
 		try {
 			MongoDBClient mongoClient  = new MongoDBClient();
+			
+			List<String>  categoiesList = mongoClient.getAllCategories() ;
+			if(categoiesList.size() <= 0)
+			{
+				getCategoriesfromFoursquare();
+			}
+			
 			mongoClient.RecommendationStartupOperation();
-		} catch (UnknownHostException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
+		
+	}
+
+	private static void getCategoriesfromFoursquare() throws Exception {
+		String clientID = "FQ2N5PKZRPQVZFWLP3MC3H43O5N2YUCTPYFGS3W503OGOGQP";
+		String clientSecret = "42ZECLAWYZOBY5W1EOSV2PFUJZCRCXFTOZN0ITSGEZAB4YDY";
+		String callBackURL = "http://www.testapp.com";
+
+		FourSquareClient fourSquareClient = new FourSquareClient(clientID, clientSecret, callBackURL);
+		
+		MongoDBClient mongoClient = new MongoDBClient();
+
+		try {
+			Result<Category[]> resultArray = fourSquareClient.getCategories();
+			if (resultArray.getMeta().getCode() == 200) {
+				// if query was ok we can finally we do something with the data
+				Category[]   categoryArray = resultArray.getResult();
+				for(int i = 0 ; i <categoryArray.length ; i++)
+				{
+					String superCategory = categoryArray[i].getName();
+					System.out.println(categoryArray[i].getName());
+					Category[]   categorySubArray  =  categoryArray[i].getCategories();
+					
+					
+					
+					
+					for(int k = 0 ; k <categorySubArray.length ; k++)
+					{
+						String subCategory = categorySubArray[k].getName();
+						
+						mongoClient.addCategories(superCategory , subCategory);
+						System.out.println("	"  + categorySubArray[k].getName());
+					}
+
+					
+					//System.out.println(categoryArray[i].getPluralName() );
+				}
+			}
+
+
+			else {
+				System.out.println("Error occured: ");
+				System.out.println("  code: " + resultArray.getMeta().getCode());
+				System.out.println("  type: " + resultArray.getMeta().getErrorType());
+				System.out.println("  detail: " + resultArray.getMeta().getErrorDetail());
+			}
+
+		} catch (FoursquareApiException e) {
+
+			e.printStackTrace();
+		}
 		
 	}
 
