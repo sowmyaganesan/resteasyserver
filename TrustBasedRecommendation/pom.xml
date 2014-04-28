@@ -3,7 +3,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.howtodoinjava</groupId>
 	<artifactId>TrustBasedRecommendation</artifactId>
+	<!--  
 	<packaging>war</packaging>
+	-->
+	<packaging>jar</packaging>
 	<version>1.0-SNAPSHOT</version>
 	<name>TrustBasedRecommendation Maven Webapp</name>
 	<url>http://maven.apache.org</url>
@@ -84,6 +87,56 @@
             
 	</dependencies>
 	<build>
-		<finalName>RESTfulDemoApplication</finalName>
+		<finalName>TrustBasedRecommendation</finalName>
+		<plugins>
+                       <plugin>
+                               <groupId>org.apache.maven.plugins</groupId>
+                               <artifactId>maven-compiler-plugin</artifactId>
+                               <version>3.0</version>
+                               <configuration>
+                                       <source>1.6</source>
+                                       <target>1.6</target>
+                               </configuration>
+                       </plugin>
+                       <plugin>
+                               <artifactId>maven-dependency-plugin</artifactId>
+                               <executions>
+                                       <execution>
+                                               <id>copy-dependencies</id>
+                                               <phase>package</phase>
+                                               <goals>
+                                                       <goal>copy-dependencies</goal>
+                                               </goals>
+                                               <configuration>
+                                                       <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                                                       <overWriteReleases>true</overWriteReleases>
+                                                       <overWriteSnapshots>true</overWriteSnapshots>
+                                                       <overWriteIfNewer>true</overWriteIfNewer>
+                                                       <excludeScope>test</excludeScope>
+                                                       <includeScope>compile</includeScope>
+                                                       <stripVersion>true</stripVersion>
+                                               </configuration>
+                                       </execution>
+                               </executions>
+                       </plugin>
+                       <plugin>
+                               <artifactId>maven-assembly-plugin</artifactId>
+                               <version>2.3</version>
+                               <configuration>
+                                       <descriptors>
+                                               <descriptor>src/main/assembly/descriptor.xml</descriptor>
+                                       </descriptors>
+                               </configuration>
+                               <executions>
+                                       <execution>
+                                               <id>make-distribution</id>
+                                               <phase>package</phase>
+                                               <goals>
+                                                       <goal>single</goal>
+                                               </goals>
+                                       </execution>
+                               </executions>
+                       </plugin>
+                       </plugins>
 	</build>
 </project>

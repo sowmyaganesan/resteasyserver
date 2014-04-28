@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
@@ -12,11 +13,24 @@ import com.sjsu.mongodb.MongoDBClient;
 import com.sjsu.pojo.Bookmark;
 import com.sjsu.pojo.User;
 
+
+
+
+/*
+ * 
+ InputFormat
+{
+    "email": "som@gmail.com"
+}
+ * 
+ * 
+ */
 @Path("/trustbasedtecommendationservice")
 public class TrustBasedRecommendationService {
 
-	@GET
+	@POST
 	@Path("/gettrustrecommendation")
+	@Produces("application/json")
 	public List<Bookmark> getRecommendation(User user  ) {
 		List<Bookmark> bookmarksList =  new ArrayList<Bookmark>()  ;
 		try {
