@@ -582,4 +582,73 @@ public class MongoDBClient {
 
 		return bookmarksList ; 
 	}
+
+	public void RecommendationStartupOperation() {
+		DBCollection collection = getRecommendationCollection();
+		collection.remove(new BasicDBObject());
+
+		
+	}
+	
+	
+	
+	private DBCollection getCategoryCollection() {
+		DB db = mongoClient.getDB(DatabaseConstants.DATABASE_NAME);
+		DBCollection collection = db
+				.getCollection(DatabaseConstants.CATEGORY_TABLE_NAME);
+		return collection;
+
+	}
+	
+	
+	
+	
+	
+	
+	public void addCategories(String superCategory , String subCatergory ) throws IOException {
+		
+
+		
+		DBCollection collection = getCategoryCollection();
+		
+	
+			BasicDBObject document = new BasicDBObject();
+			document.put("superCategory", superCategory);
+			document.put("subCategory", subCatergory);
+			
+			WriteResult result = collection.insert(document);
+			String error = result.getError();
+			if (error != null) {
+				throw new IOException("Error adding the category  "  + error);
+			}
+		
+
+	}
+	
+	
+	
+	
+	
+	public String findSuperCategory(String subCategory)
+	{
+		DBCollection collection = getCategoryCollection();
+		DBObject query = new BasicDBObject("subCategory",  subCategory );
+		DBCursor existresult = collection.find(query);
+		
+		
+
+	
+		String superCategoryName = null ; 
+		
+
+
+		while (existresult.hasNext()) {
+			DBObject dbobject = existresult.next();
+			 superCategoryName = (String) dbobject.get("superCategory") ;
+
+		}
+		
+		return superCategoryName;
+		
+	}
 }
