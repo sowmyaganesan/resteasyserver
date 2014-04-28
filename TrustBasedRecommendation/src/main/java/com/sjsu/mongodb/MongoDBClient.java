@@ -71,12 +71,14 @@ public class MongoDBClient {
 				DBCursor result = collection.find(senderquery);
 				
 				if(result.size() > 0){
-					BSONObject senderjson = existresult.next();
+				while(result.hasNext()){
+					BSONObject senderjson = result.next();
 					List<String> existfriend = (List<String>) senderjson.get("friends");
 					BasicDBObject newDocument = new BasicDBObject();
 					existfriend.add(user.getEmail());
 					newDocument.append("$set", new BasicDBObject().append("friends", existfriend));
 					collection.update(senderquery, newDocument);
+				}
 				}else{
 					System.out.println(":Couldnt add sender email to friend list since sender doesnt exist in the system");
 				}

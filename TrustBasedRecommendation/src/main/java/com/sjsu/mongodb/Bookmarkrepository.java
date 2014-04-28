@@ -18,6 +18,7 @@ import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.WriteResult;
 import com.sjsu.pojo.Bookmarkcollection;
+import com.sjsu.pojo.TrustScoreCollection;
 import com.sjsu.utilities.DatabaseConstants;
 
 public class Bookmarkrepository {
@@ -43,6 +44,7 @@ public class Bookmarkrepository {
 			DBCollection collection = getUserCollection();
 			DBObject query = new BasicDBObject("email", email);
 			DBCursor existresult = collection.find(query);
+			DBCollection trustcollection = gettrustCollection();
 			if (existresult.size() > 0){
 				
 				BSONObject json = existresult.next();
@@ -51,19 +53,40 @@ public class Bookmarkrepository {
 				if (existfriends == null)
 					return "{\"Success\": \"No friends exist for the user\"}";
 				else{
-					List<BSONObject> friendscollections = new ArrayList<BSONObject>();
+					List<TrustScoreCollection> friendscollections = new ArrayList<TrustScoreCollection>();
 					Iterator<Object> iterator = existfriends.iterator();
 					while (iterator.hasNext()) {
 						Object bitr= iterator.next();
-						BasicDBObject whereQuery = new BasicDBObject().append("email", bitr);
-						DBCursor cursor = collection.find(whereQuery);
-						while(cursor.hasNext()){
-							BSONObject bjson = cursor.next();
-							friendscollections.add(bjson);
+						BasicDBObject whereQuery = new BasicDBObject();
+						whereQuery.put("friend", bitr);
+						whereQuery.put("user", email);
+						
+						DBCursor cursor = trustcollection.find(whereQuery);
+						if(cursor.size() > 0){
+							while(cursor.hasNext()){
+								BSONObject bjson = cursor.next();
+								TrustScoreCollection trustScoreCollection = new TrustScoreCollection();
+								trustScoreCollection.setUser(email);
+								trustScoreCollection.setFriend(String.valueOf(bitr));
+								trustScoreCollection.setCategory((String) bjson.get("category"));
+								trustScoreCollection.setTrustscore((Double) bjson.get("trustscore"));
+								trustScoreCollection.setExplicit((String) bjson.get("explicit"));
+								friendscollections.add(trustScoreCollection);
+							}
+						}else{
+							TrustScoreCollection trustScoreCollection = new TrustScoreCollection();
+							trustScoreCollection.setUser(email);
+							String friendemail = String.valueOf(bitr);
+							trustScoreCollection.setFriend(friendemail);
+							trustScoreCollection.setExplicit(null);
+							trustScoreCollection.setCategory(null);
+							trustScoreCollection.setTrustscore(0.00);
+							friendscollections.add(trustScoreCollection);
 						}
 					}
-					String book = new Gson().toJson(friendscollections);
-					return new Gson().toJson(friendscollections);
+					String friends = new Gson().toJson(friendscollections);
+					System.out.println(friends);
+					return friends;
 				}
 			}
 			return "{\"Failed\": \"User doesnt exist\"}";
@@ -222,6 +245,11 @@ public class Bookmarkrepository {
 	private DBCollection getUserCollection() {
 		DB db = mongoClient.getDB(DatabaseConstants.DATABASE_NAME);
 		DBCollection collection = db.getCollection(DatabaseConstants.USER_TABLE_NAME);
+		return collection;
+	}
+	private DBCollection gettrustCollection() {
+		DB db = mongoClient.getDB(DatabaseConstants.DATABASE_NAME);
+		DBCollection collection = db.getCollection(DatabaseConstants.TRUSTSCORE_TABLE_NAME);
 		return collection;
 	}
 

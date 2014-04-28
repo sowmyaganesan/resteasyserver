@@ -38,16 +38,23 @@ public class EmailTracker {
 			Iterator<String> iterator = inviteemailslst.iterator();
 			while (iterator.hasNext()) {
 				String bitr= iterator.next();
-				BasicDBObject document = new BasicDBObject();
-				document.put("senderemail", inviteemails.getSenderemail());
-				document.put("emailaddress", bitr);
-
-				WriteResult result = emailedCollection.insert(document);
-				String error = result.getError();
-				if (error != null) {
-					throw new IOException("Error adding the user with email " + error);
-				}
+				BasicDBObject whereQuery = new BasicDBObject();
+				whereQuery.put("senderemail", inviteemails.getSenderemail());
+				whereQuery.put("emailaddress", bitr);
+				DBCollection collection = getUserCollection();
+				DBCursor cursor = collection.find(whereQuery);
 				
+				if (cursor.size() == 0){
+					BasicDBObject document = new BasicDBObject();
+					document.put("senderemail", inviteemails.getSenderemail());
+					document.put("emailaddress", bitr);
+	
+					WriteResult result = emailedCollection.insert(document);
+					String error = result.getError();
+					if (error != null) {
+						throw new IOException("Error adding the user with email " + error);
+					}
+				}
 			}
 			return "{\"Success\": \"Added User\"}";	
 	}
