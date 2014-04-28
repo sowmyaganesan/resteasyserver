@@ -5,12 +5,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.sjsu.mongodb.MongoDBClient;
 import com.sjsu.pojo.User;
 import com.sjsu.pojo.UserRecommendation;
 
 public class RecommendationProcessDriver {
 
 	public static void main(String[] args) throws UnknownHostException {
+		
+		startupOperations();
 		
 		
 		ExplicitRecommendationProcess explictrecommendationProcess = new ExplicitRecommendationProcess();
@@ -20,6 +23,7 @@ public class RecommendationProcessDriver {
 		
 		
 		//implicit reco 
+		
 		
 		ImplicitRecommendationProcess implicitRecoProcess = new ImplicitRecommendationProcess();
 
@@ -72,6 +76,18 @@ public class RecommendationProcessDriver {
 
 		
 
+	}
+
+	private static void startupOperations() {
+		try {
+			MongoDBClient mongoClient  = new MongoDBClient();
+			mongoClient.RecommendationStartupOperation();
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 	}
 
 }

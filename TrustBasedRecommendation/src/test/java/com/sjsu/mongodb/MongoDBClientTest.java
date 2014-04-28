@@ -19,7 +19,7 @@ import com.sjsu.restservices.FourSquareService;
 
 public class MongoDBClientTest {
 
-	/*@Test
+	@Test
 	public void addUser() {
 		try {
 			MongoDBClient mongoClient = new MongoDBClient();
@@ -83,7 +83,7 @@ public class MongoDBClientTest {
 
 	}
 
-*/	/*@Test
+@Test
 	public void getBookmarksfromUserTest() {
 
 		try {
@@ -103,8 +103,7 @@ public class MongoDBClientTest {
 		}
 
 	}
-*/
-/*	@Test
+@Test
 	public void getMostBookmarkedCategory() {
 		try {
 			MongoDBClient mongoClient = new MongoDBClient();
@@ -125,8 +124,8 @@ public class MongoDBClientTest {
 		}
 
 	}
-*/
-	/*@Test
+
+	@Test
 	public void getPopularRecommendationinCategoryTest() {
 
 		try {
@@ -146,9 +145,9 @@ public class MongoDBClientTest {
 			e.printStackTrace();
 		}
 
-	}*/
+	}
 
-	/*@Test
+	@Test
 	public void getTopTrustedFriendsinCategory() {
 		try {
 			MongoDBClient mongoClient = new MongoDBClient();
@@ -172,9 +171,9 @@ public class MongoDBClientTest {
 			e.printStackTrace();
 		}
 
-	}*/
+	}
 
-	/*@Test
+	@Test
 	public void getBookmarksfromTopTrustedFriendsTest() {
 		try {
 			MongoDBClient mongoClient = new MongoDBClient();
@@ -211,9 +210,9 @@ public class MongoDBClientTest {
 			e.printStackTrace();
 		}
 
-	}*/
+	}
 	
-	/*@Test
+	@Test
 	public void getAllUserandFrndsofSystemTest() {
 		try {
 			MongoDBClient mongoClient = new MongoDBClient();
@@ -228,9 +227,9 @@ public class MongoDBClientTest {
 			e.printStackTrace();
 		}
 
-	}*/
-
-	/*@Test
+	}
+	
+	@Test
 	public void getAllBookmarkCategoryCountForUserTest() {
 		try {
 			MongoDBClient mongoClient = new MongoDBClient();
@@ -250,8 +249,7 @@ public class MongoDBClientTest {
 		}
 
 	}
-*/
-/*	@Test
+	@Test
 	public void populateUserRecommendationTest() {
 		try {
 
@@ -290,8 +288,8 @@ public class MongoDBClientTest {
 			e.printStackTrace();
 		}
 
-	}*/
-	/*
+	}
+	
 	@Test
 	public void getRecommendationforUserTest() {
 
@@ -340,5 +338,55 @@ public class MongoDBClientTest {
 		}
 
 	}
-*/
+	
+	
+	@Test
+	public void RecommendationStartupOperationTest() {
+
+		try {
+			MongoDBClient mongoClient = new MongoDBClient();
+			
+
+		mongoClient.RecommendationStartupOperation();
+		
+		
+	
+
+		} catch (UnknownHostException e) {
+			assertTrue(false);
+			e.printStackTrace();
+		} catch (IOException e) {
+			// assertTrue(false);
+			e.printStackTrace();
+		}
+
+	}
+	
+	
+	
+	
+
+	@Test
+	public void findSuperCategoryTest() {
+		try {
+			MongoDBClient mongoClient = new MongoDBClient();
+		
+String subCategory = "Mediterranean Restaurant";
+			System.out.println (mongoClient.findSuperCategory(subCategory));
+
+		} catch (UnknownHostException e) {
+			assertTrue(false);
+			e.printStackTrace();
+		} catch (IOException e) {
+			assertTrue(false);
+			e.printStackTrace();
+		}
+
+	}
+	
+	
+	
+	
+	
+
 }

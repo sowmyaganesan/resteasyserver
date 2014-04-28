@@ -12,4 +12,5 @@ public class DatabaseConstants {
 	public static final String RECOMMENDATION_TABLE_NAME = "RecommendationCollection";
 	public static final String TRUSTSCORE_TABLE_NAME = "TrustScoreCollection";
 	public static final String EMAIL_TABLE_NAME = "EmailedCollection";
+	public static final String CATEGORY_TABLE_NAME = "CategoryCollection";
 }

@@ -145,13 +145,37 @@ public class ImplicitRecommendationProcess {
 
 	private static void init() {
 		// TODO Auto-generated method stub
+		
+		
+		/*
+		 * 
+		 * 
+		 * Arts & Entertainment
+College & University
+Event
+Food
+Nightlife Spot
+Outdoors & Recreation
+Professional & Other Places
+Residence
+Shop & Service
+Travel & Transport
+		 */
 
-		AVAIL_CATEGORIES_SYSTEM.add("doctor");
-		AVAIL_CATEGORIES_SYSTEM.add("house");
+		AVAIL_CATEGORIES_SYSTEM.add("Arts & Entertainment");
+		AVAIL_CATEGORIES_SYSTEM.add("College & University");
 
-		AVAIL_CATEGORIES_SYSTEM.add("movies");
-		AVAIL_CATEGORIES_SYSTEM.add("restaurant");
-		AVAIL_CATEGORIES_SYSTEM.add("Universites");
+		AVAIL_CATEGORIES_SYSTEM.add("Event");
+		AVAIL_CATEGORIES_SYSTEM.add("Food");
+		AVAIL_CATEGORIES_SYSTEM.add("Nightlife Spot");
+
+		AVAIL_CATEGORIES_SYSTEM.add("Outdoors & Recreation");
+		AVAIL_CATEGORIES_SYSTEM.add("Professional & Other Places");
+		AVAIL_CATEGORIES_SYSTEM.add("Residence");
+		
+		AVAIL_CATEGORIES_SYSTEM.add("Outdoors & Recreation");
+		AVAIL_CATEGORIES_SYSTEM.add("Shop & Service");
+		AVAIL_CATEGORIES_SYSTEM.add("Travel & Transport");
 
 	}
 
