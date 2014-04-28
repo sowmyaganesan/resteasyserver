@@ -3,6 +3,7 @@ package com.sjsu.mongodb;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -18,6 +19,9 @@ import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.WriteResult;
 import com.sjsu.pojo.Bookmarkcollection;
+import com.sjsu.pojo.Categories;
+import com.sjsu.pojo.Friendlist;
+import com.sjsu.pojo.Friends;
 import com.sjsu.pojo.TrustScoreCollection;
 import com.sjsu.utilities.DatabaseConstants;
 
@@ -45,15 +49,16 @@ public class Bookmarkrepository {
 			DBObject query = new BasicDBObject("email", email);
 			DBCursor existresult = collection.find(query);
 			DBCollection trustcollection = gettrustCollection();
+			Friendlist friendlist = new Friendlist();
 			if (existresult.size() > 0){
 				
 				BSONObject json = existresult.next();
 				List<Object> existfriends = (List<Object>) json.get("friends");
-				
+				System.out.println(existfriends.size());
 				if (existfriends == null)
 					return "{\"Success\": \"No friends exist for the user\"}";
 				else{
-					List<TrustScoreCollection> friendscollections = new ArrayList<TrustScoreCollection>();
+					List<Friends> newfrdlst = new ArrayList<Friends>();
 					Iterator<Object> iterator = existfriends.iterator();
 					while (iterator.hasNext()) {
 						Object bitr= iterator.next();
@@ -62,29 +67,25 @@ public class Bookmarkrepository {
 						whereQuery.put("user", email);
 						
 						DBCursor cursor = trustcollection.find(whereQuery);
+						Friends friends = new Friends();
+						List<Categories> newcategory = new ArrayList<Categories>();
+						friends.setUser(String.valueOf(bitr));
 						if(cursor.size() > 0){
 							while(cursor.hasNext()){
+								Categories categories = new Categories();
 								BSONObject bjson = cursor.next();
-								TrustScoreCollection trustScoreCollection = new TrustScoreCollection();
-								trustScoreCollection.setUser(email);
-								trustScoreCollection.setFriend(String.valueOf(bitr));
-								trustScoreCollection.setCategory((String) bjson.get("category"));
-								trustScoreCollection.setTrustscore((Double) bjson.get("trustscore"));
-								trustScoreCollection.setExplicit((String) bjson.get("explicit"));
-								friendscollections.add(trustScoreCollection);
+								categories.setCategory((String) bjson.get("category"));
+								categories.setScore((Double) bjson.get("trustscore"));
+								newcategory.add(categories);
 							}
-						}else{
-							TrustScoreCollection trustScoreCollection = new TrustScoreCollection();
-							trustScoreCollection.setUser(email);
-							String friendemail = String.valueOf(bitr);
-							trustScoreCollection.setFriend(friendemail);
-							trustScoreCollection.setExplicit(null);
-							trustScoreCollection.setCategory(null);
-							trustScoreCollection.setTrustscore(0.00);
-							friendscollections.add(trustScoreCollection);
+							
 						}
+						friends.setCategories(newcategory);
+						newfrdlst.add(friends);
 					}
-					String friends = new Gson().toJson(friendscollections);
+					friendlist.setUser(email);
+					friendlist.setFriends(newfrdlst);
+					String friends = new Gson().toJson(friendlist);
 					System.out.println(friends);
 					return friends;
 				}
