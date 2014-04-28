@@ -54,3 +54,17 @@ db.TrustScoreCollection.insert({  "user" : "cmeena@gmail.com", "friend" : "lak@g
 db.TrustScoreCollection.insert({  "user" : "som@gmail.com", "friend" : "cmeena@gmail.com", "category" : "Food", "trustscore" : 3, "explicit" : "true" });
 db.TrustScoreCollection.insert({  "user" : "lak@gmail.com", "friend" : "cmeena@gmail.com", "category" : "Outdoors & Recreation", "trustscore" : 3, "explicit" : "true" });
 db.TrustScoreCollection.insert({  "user" : "cmeena@gmail.com", "friend" : "umang@gmail.com", "category" : "Food", "trustscore" : 5, "explicit" : "true" });
+
+
+
+
+scp -i meena295B.pem /Users/cmeena/Documents/295A/FinalYearProject/resteasyserver/TrustBasedRecommendation/target/TrustBasedRecommendation-distribution.tar.gz  ec2-user@54.187.117.106:/home/ec2-user/
+mvn clean package -DskipTests
+cd /Users/cmeena/Documents/295A/FinalYearProject/resteasyserver/TrustBasedRecommendation
+
+mvn package -DskipTests
+
+
+
+/Users/cmeena/Documents/295A/FinalYearProject/resteasyserver/TrustBasedRecommendation/target/TrustBasedRecommendation-distribution.tar.gz
+
