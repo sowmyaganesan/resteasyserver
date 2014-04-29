@@ -1,0 +1,70 @@
+db.UserCollection.insert( {name : "umang" ,  email : "umang@gmail.com" , bookmarks : [ ] , friends : [ ] } );  // adding new user 
+
+ // adding friend to meena 
+
+db.UserCollection.update( { "_id" :  ObjectId("53536aab7704fe878ffba3d1") }, { $addToSet: { friends : "umang@gmail.com"  } } ); 
+
+
+ // adding trustscore to  a  friend of  meena 
+
+db.TrustScoreCollection.insert({"user" : "cmeena@gmail.com", "friend" : "umang@gmail.com", "category" : "house", "trustscore" : 5, "explicit" : "true"});
+
+
+
+//adding bookmark to meena 
+
+
+db.BookmarkCollection.insert();
+
+
+
+
+
+db.BookmarkCollection.insert({ "email" : "cmeena@gmail.com", "name" : "frozen", "location" : "san jose", "category" : "food", "stats" : "203 likes", "tried" : true, "status" : "Bad" });
+db.BookmarkCollection.insert({  "email" : "som@gmail.com", "name" : "batman", "location" : "san jose", "category" : "Outdoors & Recreation", "stats" : "203 likes", "tried" : true, "status" : "Bad" });
+db.BookmarkCollection.insert({  "email" : "som@gmail.com", "name" : "peacock", "location" : "san jose", "category" : "food", "stats" : "203 likes", "tried" : true, "status" : "Bad" });
+db.BookmarkCollection.insert({ "email" : "cmeena@gmail.com", "name" : "panera", "location" : "san jose", "category" : "Event", "stats" : "102 likes", "tried" : true, "status" : "Bad" });
+
+
+
+
+ scp -i meena295B.pem ~/Desktop/TrustBasedRecommendation.war  ec2-user@54.187.117.106:/home/ec2-user/apache-tomcat-7.0.53/webapps/
+ 
+ http://54.187.117.106:8080/TrustBasedRecommendation/restservice/adduser
+ 
+ ssh -i meena295B.pem ec2-user@54.187.117.106
+ 
+ 
+ 
+ 
+ db.UserCollection.insert({  "bookmarks" : [ ], "email" : "lak@gmail.com", "friends" : [  "cmeena@gmail.com" ], "name" : "lak" });
+db.UserCollection.insert({ "bookmarks" : [ ], "email" : "som@gmail.com", "friends" : [  "cmeena@gmail.com" ], "name" : "som" });
+db.UserCollection.insert({  "bookmarks" : [ ], "email" : "cmeena@gmail.com", "friends" : [  "lak@gmail.com",  "som@gmail.com",  "umang@gmail.com" ], "name" : "cmeena" });
+db.UserCollection.insert({ "bookmarks" : [ ], "email" : "umang@gmail.com", "friends" : [  "cmeena@gmail.com" ], "name" : "umang" });
+db.UserCollection.insert({  "bookmarks" : [ ], "city" : "chennai", "email" : "pattu@gmail.com", "friends" : [ ], "name" : "pattu", "password" : null, "zip" : 12345 });
+db.UserCollection.insert({  "email" : "ram@gmail.com", "city" : "houston", "name" : "ram", "zip" : 95051, "password" : null, "friends" : [ ], "bookmarks" : [ ] });
+
+
+db.createCollection("CategoryCollection" );
+
+
+
+db.TrustScoreCollection.insert({  "user" : "cmeena@gmail.com", "friend" : "som@gmail.com", "category" : "Food", "trustscore" : 5, "explicit" : "true" });
+db.TrustScoreCollection.insert({  "user" : "cmeena@gmail.com", "friend" : "lak@gmail.com", "category" : "Outdoors & Recreation", "trustscore" : 4, "explicit" : "true" });
+db.TrustScoreCollection.insert({  "user" : "som@gmail.com", "friend" : "cmeena@gmail.com", "category" : "Food", "trustscore" : 3, "explicit" : "true" });
+db.TrustScoreCollection.insert({  "user" : "lak@gmail.com", "friend" : "cmeena@gmail.com", "category" : "Outdoors & Recreation", "trustscore" : 3, "explicit" : "true" });
+db.TrustScoreCollection.insert({  "user" : "cmeena@gmail.com", "friend" : "umang@gmail.com", "category" : "Food", "trustscore" : 5, "explicit" : "true" });
+
+
+
+
+scp -i meena295B.pem /Users/cmeena/Documents/295A/FinalYearProject/resteasyserver/TrustBasedRecommendation/target/TrustBasedRecommendation-distribution.tar.gz  ec2-user@54.187.117.106:/home/ec2-user/
+mvn clean package -DskipTests
+cd /Users/cmeena/Documents/295A/FinalYearProject/resteasyserver/TrustBasedRecommendation
+
+mvn package -DskipTests
+
+
+
+/Users/cmeena/Documents/295A/FinalYearProject/resteasyserver/TrustBasedRecommendation/target/TrustBasedRecommendation-distribution.tar.gz
+

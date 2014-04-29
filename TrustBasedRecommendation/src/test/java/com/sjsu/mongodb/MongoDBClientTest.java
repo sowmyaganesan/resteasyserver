@@ -83,7 +83,7 @@ public class MongoDBClientTest {
 
 	}
 
-@Test
+	@Test
 	public void getBookmarksfromUserTest() {
 
 		try {
@@ -103,7 +103,8 @@ public class MongoDBClientTest {
 		}
 
 	}
-@Test
+
+	@Test
 	public void getMostBookmarkedCategory() {
 		try {
 			MongoDBClient mongoClient = new MongoDBClient();
@@ -130,7 +131,7 @@ public class MongoDBClientTest {
 
 		try {
 			MongoDBClient mongoClient = new MongoDBClient();
-			
+
 			List<String> categoryList = new ArrayList<String>();
 			categoryList.add("house");
 			categoryList.add("restaurant");
@@ -211,7 +212,7 @@ public class MongoDBClientTest {
 		}
 
 	}
-	
+
 	@Test
 	public void getAllUserandFrndsofSystemTest() {
 		try {
@@ -228,7 +229,7 @@ public class MongoDBClientTest {
 		}
 
 	}
-	
+
 	@Test
 	public void getAllBookmarkCategoryCountForUserTest() {
 		try {
@@ -249,6 +250,7 @@ public class MongoDBClientTest {
 		}
 
 	}
+
 	@Test
 	public void populateUserRecommendationTest() {
 		try {
@@ -289,7 +291,7 @@ public class MongoDBClientTest {
 		}
 
 	}
-	
+
 	@Test
 	public void getRecommendationforUserTest() {
 
@@ -309,25 +311,18 @@ public class MongoDBClientTest {
 		}
 
 	}
-	
-	
-	
-	
-	
+
 	@Test
 	public void findUserinRecommendationTest() {
 
 		try {
 			MongoDBClient mongoClient = new MongoDBClient();
-			
 
-		List<String>	 users = mongoClient.findUserinRecommendation() ;
-		
-		
-		for(int i =0 ; i <users.size() ; i++)
-		{
-			System.out.println(users.get(i));
-		}
+			List<String> users = mongoClient.findUserinRecommendation();
+
+			for (int i = 0; i < users.size(); i++) {
+				System.out.println(users.get(i));
+			}
 
 		} catch (UnknownHostException e) {
 			assertTrue(false);
@@ -338,19 +333,14 @@ public class MongoDBClientTest {
 		}
 
 	}
-	
-	
+
 	@Test
 	public void RecommendationStartupOperationTest() {
 
 		try {
 			MongoDBClient mongoClient = new MongoDBClient();
-			
 
-		mongoClient.RecommendationStartupOperation();
-		
-		
-	
+			mongoClient.RecommendationStartupOperation();
 
 		} catch (UnknownHostException e) {
 			assertTrue(false);
@@ -361,18 +351,14 @@ public class MongoDBClientTest {
 		}
 
 	}
-	
-	
-	
-	
 
 	@Test
 	public void findSuperCategoryTest() {
 		try {
 			MongoDBClient mongoClient = new MongoDBClient();
-		
-String subCategory = "Mediterranean Restaurant";
-			System.out.println (mongoClient.findSuperCategory(subCategory));
+
+			String subCategory = "Mediterranean Restaurant";
+			System.out.println(mongoClient.findSuperCategory(subCategory));
 
 		} catch (UnknownHostException e) {
 			assertTrue(false);
@@ -383,10 +369,25 @@ String subCategory = "Mediterranean Restaurant";
 		}
 
 	}
-	
-	
-	
-	
-	
+
+	@Test
+	public void getAllCategoriesTest() {
+		try {
+			MongoDBClient mongoClient = new MongoDBClient();
+
+			List<String> categoriesList = mongoClient.getAllCategories();
+			for (int i = 0; i < categoriesList.size(); i++) {
+				System.out.println(categoriesList.get(i));
+			}
+
+		} catch (UnknownHostException e) {
+			assertTrue(false);
+			e.printStackTrace();
+		} catch (IOException e) {
+			assertTrue(false);
+			e.printStackTrace();
+		}
+
+	}
 
 }

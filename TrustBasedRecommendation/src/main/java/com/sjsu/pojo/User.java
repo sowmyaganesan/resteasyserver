@@ -8,7 +8,7 @@ public class User {
 	public String email;
 	public String city;
 	public int zip;
-	public String passwrd;
+	public String password;
 	public List<String> friendsList;
 	
 	public User()
@@ -25,11 +25,11 @@ public class User {
 	}
 
 	public String getPasswrd() {
-		return passwrd;
+		return password;
 	}
 
 	public void setPasswrd(String passwrd) {
-		this.passwrd = passwrd;
+		this.password = passwrd;
 	}
 
 	public void setName(String name) {

@@ -2,6 +2,8 @@ package com.sjsu.restservices;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -13,6 +15,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 import com.sjsu.mongodb.MongoDBClient;
+import com.sjsu.pojo.Bookmark;
 import com.sjsu.pojo.User;
 
 @Path("/restservice")
@@ -112,7 +115,23 @@ public class RestService {
 	}
 	
 	
-	
+	@GET
+	@Path("/getCategories")
+	@Produces("application/json")
+	public List<String> getCategories()
+	{
+		List<String>  categoriesList = new ArrayList<String>();
+		try {
+			MongoDBClient mongoClient = new MongoDBClient();
+			
+ categoriesList = 	mongoClient.getAllCategories();
+			
+		
+		} catch (Exception e) {
+		
+		}
+		return categoriesList;
+	}
 	
 	
 }
