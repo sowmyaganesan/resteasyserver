@@ -5,7 +5,11 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Properties;
 
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.*;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.POST;
@@ -14,6 +18,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 import com.google.gson.Gson;
+import com.sjsu.mongodb.AmazonEmailService;
 import com.sjsu.mongodb.Bookmarkrepository;
 import com.sjsu.mongodb.EmailService;
 import com.sjsu.mongodb.EmailTracker;
@@ -26,41 +31,16 @@ import com.sjsu.pojo.TrustScoreCollection;
 @Path("/friends")
 public class FriendController {
 	
-	
-	
 	@POST
 	@Path("/invitefriends")
 	@Consumes("application/json")
-	public Response invitefriends(Inviteemails inviteemails)
+	public Response invitefriends(Inviteemails inviteemails) throws Exception
 	{
 		String Message = null;
 		String invfrd = new Gson().toJson(inviteemails);
-		EmailConfiguration configuration = new EmailConfiguration();
-		  configuration.setProperty(EmailConfiguration.SMTP_HOST, "smtp.gmail.com");
-		  configuration.setProperty(EmailConfiguration.SMTP_AUTH, "true");
-		  configuration.setProperty(EmailConfiguration.SMTP_TLS_ENABLE, "true");
-		  configuration.setProperty(EmailConfiguration.SMTP_PORT, "587");
-		  configuration.setProperty(EmailConfiguration.SMTP_AUTH_USER, "instarecommendation@gmail.com");
-		  configuration.setProperty(EmailConfiguration.SMTP_AUTH_PWD, "Reco@2014");
-		  EmailService emailService = new EmailService(configuration);
-		  Email email = new Email();
-		  email.setFrom("instarecommendation@gmail.com");
-		  List<String> emailadd = inviteemails.getEmailaddress();
-		  String[] emailaddress = new String[emailadd.size()];
-		  emailaddress = emailadd.toArray(emailaddress);
-		  email.setTo(emailaddress);
-		  email.setCc(inviteemails.getSenderemail());
-		  email.setSubject("Welcome to InstaReco!!");
-		  String bodytext = "Hi, <h3><strong> Explore new areas on the Web</strong></h3><table><tr><td> We are glad to have you on InstaReco</td></tr>" +
-				  			"<tr>To register please click on the below link<td><a href='http://localhost:8080/signup'>Register</a> </td></tr>";
-		  email.setText(bodytext);
-		  email.setMimeType("text/html");
-		  /*Attachment attachment1 = new Attachment("ABCDEFGH".getBytes(), "test1.txt","text/plain");
-		  email.addAttachment(attachment1);
-		  Attachment attachment2 = new Attachment("XYZZZZZZ".getBytes(), "test2.txt","text/plain");
-		  email.addAttachment(attachment2);*/
-		  Message = emailService.sendEmail(email);
-		  
+
+		AmazonEmailService amazonEmailService = new AmazonEmailService();
+		Message = amazonEmailService.sendEmail(inviteemails);
 		  if (Message.contains("Success")){
 			  try {
 				  if (inviteemails.getEmailaddress().contains(inviteemails.getSenderemail())){

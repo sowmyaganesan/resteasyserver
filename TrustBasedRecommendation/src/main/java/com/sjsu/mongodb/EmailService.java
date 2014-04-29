@@ -1,7 +1,4 @@
 package com.sjsu.mongodb;
-import java.io.IOException;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.activation.DataHandler;
@@ -21,18 +18,9 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.util.ByteArrayDataSource;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
-import com.mongodb.MongoClient;
-import com.mongodb.WriteResult;
 import com.sjsu.pojo.Attachment;
 import com.sjsu.pojo.Email;
 import com.sjsu.pojo.EmailConfiguration;
-import com.sjsu.pojo.Inviteemails;
-import com.sjsu.utilities.DatabaseConstants;
 public class EmailService
 {
  private EmailConfiguration configuration = null;

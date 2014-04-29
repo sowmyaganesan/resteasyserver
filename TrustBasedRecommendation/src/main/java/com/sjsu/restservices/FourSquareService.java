@@ -8,6 +8,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
+import com.google.gson.Gson;
 import com.mongodb.MongoClient;
 import com.sjsu.foursquare.FourSquareClient;
 import com.sjsu.mongodb.MongoDBClient;
@@ -89,6 +90,8 @@ public class FourSquareService {
 				}///end of for loop
 					
 				}
+				String venue = new Gson().toJson(returnValueEntity);
+				System.out.println(venue);
 				return returnValueEntity;
 			}
 

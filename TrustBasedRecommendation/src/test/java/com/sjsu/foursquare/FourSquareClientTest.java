@@ -109,6 +109,7 @@ public class FourSquareClientTest {
 				// if query was ok we can finally we do something with the data
 				for (CompactVenue venue : result.getResult().getVenues()) {
 					// TODO: Do something we the data
+					System.out.println("________________________");
 					System.out.println(venue.getName());
 				}
 			}
