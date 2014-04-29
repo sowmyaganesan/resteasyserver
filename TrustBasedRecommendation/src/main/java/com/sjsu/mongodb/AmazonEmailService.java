@@ -1,5 +1,6 @@
 package com.sjsu.mongodb;
 
+import java.util.Iterator;
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -13,7 +14,7 @@ import com.sjsu.pojo.Inviteemails;
 public class AmazonEmailService {
 
     static final String FROM = "instarecommendation@gmail.com";   // Replace with your "From" address. This address must be verified.
-    static final String TO = "sowmister@gmail.com";  // Replace with a "To" address. If you have not yet requested
+    static String TO;  // Replace with a "To" address. If you have not yet requested
                                                        // production access, this address must be verified.
     
     static final String BODY = "Hi, <h3><strong> Explore new areas on the Web</strong></h3><table><tr><td> We are glad to have you on InstaReco</td></tr>" +
@@ -33,6 +34,11 @@ public class AmazonEmailService {
 
 	public String sendEmail(Inviteemails inviteemails) throws Exception{
 	       // Create a Properties object to contain connection configuration information.
+		
+		Iterator<String> iterator = inviteemails.getEmailaddress().iterator();
+		
+		while (iterator.hasNext()) {
+			TO = iterator.next();
 	    	Properties props = System.getProperties();
 	    	props.put("mail.transport.protocol", "smtp");
 	    	props.put("mail.smtp.port", "587"); 
@@ -79,6 +85,8 @@ public class AmazonEmailService {
 	            // Close and terminate the connection.
 	            transport.close();        	
 	        }
+
+		}
         return "{\"Success\": \"Email sent\"}";
 	}
 
