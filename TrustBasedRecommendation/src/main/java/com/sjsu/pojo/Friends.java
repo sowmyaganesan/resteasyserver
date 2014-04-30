@@ -4,6 +4,14 @@ import java.util.List;
 
 public class Friends {
 	String user;
+	String name;
+	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
 	List<Categories> categories;
 	
 	public String getUser() {

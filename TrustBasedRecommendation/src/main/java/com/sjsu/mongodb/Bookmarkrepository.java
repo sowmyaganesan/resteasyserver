@@ -67,14 +67,25 @@ public class Bookmarkrepository {
 				else{
 					List<Friends> newfrdlst = new ArrayList<Friends>();
 					Iterator<Object> iterator = existfriends.iterator();
+					String name = "Unknown";
 					while (iterator.hasNext()) {
 						Object bitr= iterator.next();
+						query = new BasicDBObject("email", bitr);
+						DBCursor usercursor = collection.find(query);
+						if (usercursor.size() > 0){
+							while(usercursor.hasNext()){
+								BSONObject userjson = usercursor.next();
+								name = (String) userjson.get("name");
+							}
+						}
+						
 						BasicDBObject whereQuery = new BasicDBObject();
 						whereQuery.put("friend", bitr);
 						whereQuery.put("user", email);
 						
 						DBCursor cursor = trustcollection.find(whereQuery);
 						Friends friends = new Friends();
+						friends.setName(name);
 						List<Categories> newcategorylst = new ArrayList<Categories>();
 						friends.setUser(String.valueOf(bitr));
 						if(cursor.size() > 0){
