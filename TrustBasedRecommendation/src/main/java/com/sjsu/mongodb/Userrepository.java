@@ -3,6 +3,7 @@ package com.sjsu.mongodb;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -37,6 +38,13 @@ public class Userrepository {
 	public String addTrustscoretofriend(TrustScoreCollection trustScoreCollection){
 
 		try {
+			/*MongoDBClient mongoDBClient = new MongoDBClient();
+			List<String> categorylist = mongoDBClient.getAllCategories();
+			HashMap<String,Double>  categorymap = new HashMap<String, Double>();
+			Iterator<String> itr = categorylist.iterator();
+			while (itr.hasNext()) {
+				categorymap.put(itr.next(), 0.00);
+			}*/
 			BasicDBObject whereQuery = new BasicDBObject();
 			whereQuery.put("email", trustScoreCollection.getUser());
 			DBCollection usercollection = getUserCollection();
@@ -53,6 +61,9 @@ public class Userrepository {
 							BasicDBObject whereexistbook = new BasicDBObject();
 							whereexistbook.put("user", trustScoreCollection.getUser());
 							whereexistbook.put("friend", trustScoreCollection.getFriend());
+							/*if (categorymap.containsKey(trustScoreCollection.getCategory())){
+								categorymap.put(trustScoreCollection.getCategory(),trustScoreCollection.getTrustscore());
+							}*/
 							whereexistbook.put("category", trustScoreCollection.getCategory());
 							
 							DBCursor bookcursor = trustcollection.find(whereexistbook);

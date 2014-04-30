@@ -75,7 +75,7 @@ public class FriendController {
 	@POST
 	@Path("/addTrustscoretofriend")
 	@Consumes("application/json")
-	public Response addfriends(TrustScoreCollection trustScoreCollection)
+	public Response addTrustscoretofriend(TrustScoreCollection trustScoreCollection)
 	{
 		String Message = null;
 		String invfrd = new Gson().toJson(trustScoreCollection);

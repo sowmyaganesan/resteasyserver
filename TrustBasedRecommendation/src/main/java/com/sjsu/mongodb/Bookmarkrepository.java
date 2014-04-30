@@ -45,6 +45,13 @@ public class Bookmarkrepository {
 	public String getallfriendsofuser(String email){
 
 		try {
+			MongoDBClient mongoDBClient = new MongoDBClient();
+			List<String> categorylist = mongoDBClient.getAllCategories();
+			HashMap<String,Double>  categorymap = new HashMap<String, Double>();
+			Iterator<String> itr = categorylist.iterator();
+			while (itr.hasNext()) {
+				categorymap.put(itr.next(), 0.00);
+			}
 			DBCollection collection = getUserCollection();
 			DBObject query = new BasicDBObject("email", email);
 			DBCursor existresult = collection.find(query);
@@ -68,7 +75,7 @@ public class Bookmarkrepository {
 						
 						DBCursor cursor = trustcollection.find(whereQuery);
 						Friends friends = new Friends();
-						List<Categories> newcategory = new ArrayList<Categories>();
+						List<Categories> newcategorylst = new ArrayList<Categories>();
 						friends.setUser(String.valueOf(bitr));
 						if(cursor.size() > 0){
 							while(cursor.hasNext()){
@@ -76,11 +83,21 @@ public class Bookmarkrepository {
 								BSONObject bjson = cursor.next();
 								categories.setCategory((String) bjson.get("category"));
 								categories.setScore((Double) bjson.get("trustscore"));
-								newcategory.add(categories);
+								newcategorylst.add(categories);
 							}
 							
 						}
-						friends.setCategories(newcategory);
+						Iterator<String> citr = categorylist.iterator();
+						while (citr.hasNext()) {
+							String newcat = citr.next();
+							if (!newcategorylst.contains(newcat)){
+								Categories categories = new Categories();
+								categories.setCategory(newcat);
+								categories.setScore(0.00);
+								newcategorylst.add(categories);
+							}
+						}
+						friends.setCategories(newcategorylst);
 						newfrdlst.add(friends);
 					}
 					friendlist.setUser(email);
