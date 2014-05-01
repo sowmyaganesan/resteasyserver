@@ -139,7 +139,8 @@ public class Userrepository {
 				DBCursor cursor = trustcollection.find(whereQuery);
 				if(cursor.size() > 0){
 					while(cursor.hasNext()) {
-						if (tempcollection.getTrustscore() > 0){
+						BSONObject bjson = cursor.next();
+						if (tempcollection.getTrustscore() > 0 && tempcollection.getTrustscore() != ((Double) bjson.get("trustscore"))){
 							BasicDBObject newDocument = new BasicDBObject();
 							newDocument.append("$set", new BasicDBObject().append("trustscore", tempcollection.getTrustscore()));
 							WriteResult result =trustcollection.update(whereQuery, newDocument);
