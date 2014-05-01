@@ -72,7 +72,7 @@ public class FriendController {
 
 	}
 	
-	@POST
+	/*@POST
 	@Path("/addTrustscoretofriend")
 	@Consumes("application/json")
 	public Response addTrustscoretofriend(TrustScoreCollection trustScoreCollection)
@@ -88,12 +88,12 @@ public class FriendController {
 		} 
 		System.out.println(Message);
 		return Response.status(200).entity(Message).build();
-	}
+	}*/
 
 	@POST
 	@Path("/updateTrustscoretofriend")
 	@Consumes("application/json")
-	public Response updateTrustscoretofriend(TrustScoreCollection trustScoreCollection)
+	public Response updateTrustscoretofriend(List<TrustScoreCollection> trustScoreCollection)
 	{
 		String Message = null;
 		String invfrd = new Gson().toJson(trustScoreCollection);
